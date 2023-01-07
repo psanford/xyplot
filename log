@@ -1,0 +1,94 @@
+2023/01/06:
+
+instructions:
+
+- make thing in inkscape
+- in inkscape before you do anything, setup the document properties:
+-- us letter, landscape
+-- display unit: mm
+
+- for fonts, use 'Extensions -> Text -> Hersey Text' to get something that is a single path
+
+- you might need to do a Path -> Object To Path to convert everything to a path
+- to export,  use extension: Extensions > gcodetools > path to gcode
+
+
+- range (in mm)
+-- x: 0-299
+-- y: 0-250
+
+commands:
+-- cmd `m3 s90` lower pen
+-- cmd `m5` raise pen
+
+- manually moved the head all the way to the left and fully extended
+- issued the command `g92 x0 y0` to set this as 0,0 origin
+- `g1 x10 y50 f2000`
+
+
+2022/12/04:
+
+got hello world working. just use plain inkscape with default extension Extensions > gcodetools > path to gcode
+
+
+- G00 Z5 == raise head
+- G01 Z-0.125000 F100.0(Penetrate)
+
+- s/G00 Z5.000000/M5 S90/g
+- s/G01 Z-0.125000 F100.0/M3 s90/g
+- s/F400.000000/F2000/g
+- s/G00/G01/g
+
+made fixup.sh to apply the above changes
+
+Having issues with the pen touching the paper. Need to figure out if the issue is that we aren't level
+
+
+2022/12/03
+- Initial config:
+$0=10 (step pulse, usec)
+$1=25 (step idle delay, msec)
+$2=0 (step port invert mask:00000000)
+$3=0 (dir port invert mask:00000000)
+$4=0 (step enable invert, bool)
+$5=0 (limit pins invert, bool)
+$6=0 (probe pin invert, bool)
+$10=3 (status report mask:00000011)
+$11=0.010 (junction deviation, mm)
+$12=0.002 (arc tolerance, mm)
+$13=0 (report inches, bool)
+$20=0 (soft limits, bool)
+$21=0 (hard limits, bool)
+$22=0 (homing cycle, bool)
+$23=0 (homing dir invert mask:00000000)
+$24=25.000 (homing feed, mm/min)
+$25=500.000 (homing seek, mm/min)
+$26=250 (homing debounce, msec)
+$27=1.000 (homing pull-off, mm)
+$100=100.000 (x, step/mm)
+$101=100.000 (y, step/mm)
+$102=100.000 (z, step/mm)
+$110=8000.000 (x max rate, mm/min)
+$111=8000.000 (y max rate, mm/min)
+$112=8000.000 (z max rate, mm/min)
+$120=1200.000 (x accel, mm/sec^2)
+$121=1200.000 (y accel, mm/sec^2)
+$122=3800.000 (z accel, mm/sec^2)
+$130=310.000 (x max travel, mm)
+$131=210.000 (y max travel, mm)
+$132=100.000 (z max travel, mm)
+
+
+- it seems like i mounted the pen upside down:
+-- cmd `m3 s90` should raise the pen
+-- cmd `m5` should lower the pen
+--- m5 is making a noise
+- nah, its fine
+
+
+- manually moved the head all the way to the left and fully extended
+- issued the command `g92 x0 y0` to set this as 0,0 origin
+- `g1 x10 y50 f2000`
+- range
+-- x: 0-299
+-- y: 0-250

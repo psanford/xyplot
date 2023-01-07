@@ -1,0 +1,520 @@
+src: https://www.sainsmart.com/blogs/news/grbl-v1-1-quick-reference
+Grbl Alarm Codes
+Code	Description
+1
+
+Hard limit triggered. Position Lost.
+
+2
+
+Soft limit alarm, position kept. Unlock is Safe.
+
+3
+
+Reset while in motion. Position lost.
+
+4
+
+Probe fail. Probe not in expected initial state.
+
+5
+
+Probe fail. Probe did not contact the work.
+
+6
+
+Homing fail. The active homing cycle was reset.
+
+7
+
+Homing fail. Door opened during homing cycle.
+
+8
+
+Homing fail. Pull off failed to clear limit switch.
+
+9
+
+Homing fail. Could not find limit switch.
+
+Grbl Non Gcode Commands
+Code	Description
+$$
+
+Display Grbl Settings.
+
+$x=val
+
+Change Grbl Setting x to val.
+
+$#
+
+View GCode Parameters.
+
+$G
+
+View GCode parser state.
+
+$C
+
+Toggle Check Gcode Mode
+
+$H
+
+Run Homing Cycle
+
+$J=gcode
+
+Run Jogging Motion.
+
+$X
+
+Kill Alarm Lock state.
+
+$I
+
+View Build Info
+
+$N
+
+View saved start up code
+
+$Nx=line
+
+Save Start-up GCode line (x=0 or 1) There are executed on a reset.
+
+$RST=$
+
+Restores the Grbl settings to defaults.
+
+$RST=#
+
+Erases G54-G59 WCS offsets and G28/30 positions stored in EEPROM.
+
+$RST=*
+
+Clear and Load all data from EEPROM.
+
+$SLP
+
+Enable Sleep mode.
+
+Ctrl-x
+
+Soft Reset
+
+?
+
+Status report query.
+
+~
+
+Cycle Start/Resume from Feed Hold, Door or Program pause.
+
+!
+
+Feed Hold – Stop all motion.
+
+NOTE: There are a number of other real time commands using non typeable characters. These are for developers and are not normally used outside from the console. These control things such as feed overrides. And are not covered here.
+
+Grbl Settings
+Setting	Description
+$0
+
+Step pulse, microseconds
+
+$1
+
+Step idle delay, milliseconds
+
+$2
+
+Step port invert, XYZmask*
+
+$3
+
+Direction port invert, XYZmask*
+
+The direction each axis moves.
+
+$4
+
+Step enable invert, (0=Disable, 1=Invert)
+
+$5
+
+Limit pins invert, (0=N-Open. 1=N-Close)
+
+$6
+
+Probe pin invert, (0=N-Open. 1=N-Close)
+
+$10
+
+Status report, ‘?’ status.  0=WCS position, 1=Machine position, 2= plan/buffer and WCS position, 3=plan/buffer and Machine position.
+
+$11
+
+Junction deviation, mm
+
+$12
+
+Arc tolerance, mm
+
+$13
+
+Report in inches, (0=mm. 1=Inches)**
+
+$20
+
+Soft limits, (0=Disable. 1=Enable, Homing must be enabled)
+
+$21
+
+Hard limits, (0=Disable. 1=Enable)
+
+$22
+
+Homing cycle, (0=Disable. 1=Enable)
+
+$23
+
+Homing direction invert, XYZmask* Sets which corner it homes to.
+
+$24
+
+Homing feed, mm/min
+
+$25
+
+Homing seek, mm/min
+
+$26
+
+Homing debounce, milliseconds
+
+$27
+
+Homing pull-off, mm
+
+$30
+
+Max spindle speed, RPM
+
+$31
+
+Min spindle speed, RPM
+
+$32
+
+Laser mode, (0=Off, 1=On)
+
+$100
+
+Number of X steps to move 1mm
+
+$101
+
+Number of Y steps to move 1mm
+
+$102
+
+Number of Z steps to move 1mm
+
+$110
+
+X Max rate, mm/min
+
+$111
+
+Y Max rate, mm/min
+
+$112
+
+Z Max rate, mm/min
+
+$120
+
+X Acceleration, mm/sec^2
+
+$121
+
+Y Acceleration, mm/sec^2
+
+$122
+
+Z Acceleration, mm/sec^2
+
+$130
+
+X Max travel, mm Only for Homing and Soft Limits.
+
+$131
+
+Y Max travel, mm Only for Homing and Soft Limits.
+
+$132
+
+Z Max travel, mm Only for Homing and Soft Limits.
+
+* XYZmask is a value setting for the X Y and Z axes. Change if an axis is moving in the wrong direction. Value will be 0-7. ** Reporting units are independent of the units set in the Gcode!
+
+Grbl Supported GCodes
+Code	Description
+F
+
+Set Feed rate in Units/min (See G20/G21).
+
+G0
+
+A Rapid positioning move at the Rapid Feed Rate. In Laser mode Laser will be turned off.
+
+G1
+
+A Cutting move in a straight line. At the Current F rate.
+
+G2
+
+Cut a Clockwise arc.
+
+G3
+
+Cut an Anti-Clockwise arc.
+
+G4
+
+Pause command execution for the time in Pnnn. P specifies the time in seconds. Other systems use milliseconds as the pause time, if used unchanged this can result in VERY long pauses.
+
+G10L2
+
+Sets the offset for a saved origin using absolute machine coordinates.
+
+G10L20
+
+As G10 L2 but the XYZ parameters are offsets from the current position.
+
+G17
+
+Draw Arcs in the XY plane, default.
+
+G18
+
+Draw Arcs in the ZX plane.
+
+G19
+
+Draw Arcs in the YZ plane.
+
+G20
+
+All distances and positions are in Inches
+
+G21
+
+All distances and positions are in mm
+
+G28
+
+Go to safe position. NOTE: If you have not run a homing cycle and have set the safe position this is very ‘unsafe’ to use.
+
+G28.1
+
+Set Safe position using absolute machine coordinates.
+
+G30
+
+Go to the saved G30 position.
+
+G30.1
+
+Set Predefined position using absolute machine coordinates, a rapid G0 move to that position will be performed before the coordinates are saved.
+
+G38.2
+
+Probe towards the stock, error on a failure.
+
+G38.3
+
+As G38.2, no error on failure
+
+G38.4
+
+As G38.2 but move away, stop on a loss of contact.
+
+G38.5
+
+As G38.4, no error on failure.
+
+G40
+
+Cutter Compensation off. Grbl does not support cutter compensation.
+
+G43.1
+
+Dynamic Tool length offset, offsets Z end of tool position for subsequent moves.
+
+G49
+
+Cancel Tool length Offset.
+
+G53
+
+Use machine coordinates in this command.
+
+G54
+
+Activate the relevant saved origin.
+
+G55-59
+
+As G54, activates a different saved position
+
+G61
+
+Exact Path mode. Grbl does not support any other modes.
+
+G80
+
+Canned Cycle Cancel. Grbl does not support any of the canned cycle modes which this cancels so it does nothing.
+
+G90
+
+All distances and positions are Absolute values from the current origin.
+
+G91
+
+All distances and positions are Relative values from the current position.
+
+G91.1
+
+Sets Arc incremental position mode
+
+G92
+
+Sets the current coordinate point, used to set an origin point of zero, commonly known as the home position.
+
+G92.1
+
+Reset any G92 offsets in effect to zero and zero any saved values
+
+G93
+
+Inverse time motion mode.
+
+G94
+
+Units/min mode at the current F rate.
+
+M0
+
+Pause.
+
+M1
+
+As M0 but only pauses if an optional stop switch is on.
+
+M2
+
+Program End, turn off spindle/laser and stops the machine.
+
+M3
+
+Start spindle clockwise. In Laser mode sets Constant power.
+
+M4
+
+As M3, In Laser Mode sets Dynamic power.
+
+M5
+
+Stop the Spindle
+
+M8
+
+Coolant on as a flood. (Same as M7)
+
+M9
+
+Coolant off.
+
+M30
+
+Same as M2.
+
+S
+
+Set Spindle speed in RPM or Laser Power.
+
+NOTE: Codes can contain leading zeros, G0 and G00 are the same. There are loads more GCodes, these are the ones Grbl supports. A lot of commands are Modal meaning they are remembered and applied to subsequent commands. For example, G0 X1 followed by Z5 remembers the G0 Mode and applies it to the Z5. S is modal, remembered from the last command. Two commands in the same modal group cannot be on the same line.
+
+Grbl Gcode Parameters
+Letter	Description
+X Y Z
+
+Distances or positions on the X Y Z axes.
+
+I J K
+
+Distances or positions for G2 and G3 Arcs. Correspond to the Z Y X axis respectively. These are always incremental coordinates regardless of G90/G91
+
+L
+
+Loop Cycle Count, supported but not used.
+
+N
+
+Line Number, supported but not used.
+
+R
+
+Arc radius for G2 and G3.
+
+P
+
+Multi-purpose parameter depends on command it is used in.
+
+T
+
+Tool selection, not used.
+
+NOTE: All parameters must be followed by a number.
+
+Grbl States
+State	Description
+Alarm
+
+Homing enabled but homing cycle not run or error has been detected such as limit switch activated. Home or unlock to resume.
+
+Idle
+
+Waiting for any command.
+
+Jog
+
+Performing jog motion, no new commands until complete, except Jog commands.
+
+Homing
+
+Performing a homing cycle, won’t accept new commands until complete.
+
+Check
+
+Check mode is enabled; all commands accepted but will only be parsed, not executed.
+
+Cycle
+
+Running GCode commands, all commands accepted, will go to Idle when commands are complete.
+
+Hold
+
+Pause is in operation, resume to continue.
+
+Safety Door
+
+The safety door switch has been activated, similar to a Hold but will resume on closing the door. You probably don’t have a safety door on your machine!
+
+Sleep
+
+Sleep command has been received and executed, sometimes used at the end of a job. Reset or power cycle to continue.
+
+For more information and details please refer to my ‘Introduction to CNC for a Total Novice’ series in the files section of the Facebook group ‘SainSmart Genmitsu CNC Users Group’ or the Official documentation at https://github.com/grbl/grbl.
